@@ -22,7 +22,11 @@ namespace Data.Access
             return new Entities.Customers
             {
                 FirstName = customer.FirstName,
-                LastName = customer.LastName
+                LastName = customer.LastName,
+                User = customer.User,
+                Password = customer.Password,
+                Id = 0
+
 
             };
         }
@@ -61,7 +65,7 @@ namespace Data.Access
 
         public static Business.Library.Product MapProduct(Entities.Products product)
         {
-            if(product == null)
+            if (product == null)
             {
                 throw new ArgumentException("It's NULLLLLL");
             }
@@ -73,12 +77,13 @@ namespace Data.Access
 
         public static Business.Library.Order MapOrder(Entities.Orders order)
         {
-            return new Business.Library.Order(order.CustomerId,order.LocationId)
+            return new Business.Library.Order()
             {
                 ID = order.Id,
                 CustomerID = order.CustomerId,
                 LocationID = order.LocationId,
-                Total = order.Total
+                Total = order.Total,
+                Date = order.CreatedAt
 
             };
         }
@@ -86,7 +91,7 @@ namespace Data.Access
         public static Entities.Orders MapOrder(Business.Library.Order order)
         {
             //Entities.Customers customer = MapCustomer(order.OCustomer);
-           // Entities.Locations location = MapLocation(order.OLocation);
+            // Entities.Locations location = MapLocation(order.OLocation);
 
             return new Entities.Orders
             {
@@ -102,7 +107,7 @@ namespace Data.Access
 
         public static Business.Library.OrderDetails MapOrderDetails(Entities.OrderDetails order)
         {
-           
+
             return new Business.Library.OrderDetails
             {
                 Order = MapOrder(order.Order),
@@ -152,8 +157,8 @@ namespace Data.Access
                 product_id = inventory.ProductId,
                 quantity = inventory.Quantity,
                 Product = p,
-                Location = MapLocation(inventory.Location)
-               
+                //Location = MapLocation(inventory.Location)
+
 
             };
         }

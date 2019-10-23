@@ -7,6 +7,7 @@ namespace Business.Library
         private string _firstname;
         private string _lastname;
 
+        public Customer() { }
         public Customer(string fname, string lname)
         {
             if ((fname.Length == 0) || (lname.Length == 0))
@@ -29,6 +30,8 @@ namespace Business.Library
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        public string User { get; set; }
+        public string Password { get; set; }
         public int ID { get; set; }
 
 

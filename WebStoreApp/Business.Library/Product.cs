@@ -34,6 +34,8 @@ namespace Business.Library
             set => this._price = value; 
         }
 
+        public Product() { }
+
         public Product(string name, string description, decimal price)
         {
             if(name.Length == 0) 

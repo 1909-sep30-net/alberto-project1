@@ -1,0 +1,28 @@
+﻿@model IEnumerable<LocationViewModel>
+
+
+<h1>Make an Order!</h1>
+
+
+<div class="locations_wrapper">
+
+    <h3>Restaurants </h3>
+<table class="table">
+    <thead>
+        
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Order", "ListProducts", new { id = item.Id })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+    </div>

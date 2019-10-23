@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Access
 {
-    public class Repository :IDisposable
+    public class Repository : IDisposable
     {
-        private readonly StoreContext _context;
+        private readonly Store2Context _context;
 
-        public Repository(StoreContext context)
+        public Repository(Store2Context context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -51,13 +51,33 @@ namespace Data.Access
 
             return customers.Select(Mapper.MapCustomer).ToList();
         }
-        public Customer GetCustomer(Customer customer)
+        public Customer GetCustomer(int id)
         {
-            var entity = _context.Customers.First(c => c.FirstName == customer.FirstName && c.LastName == customer.LastName);
+            try
+            {
+                var customer = Mapper.MapCustomer(_context.Customers.Single(c => c.Id == id));
 
-            var c = Mapper.MapCustomer(entity);
+                return customer;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
 
-            return c;
+        public Customer GetCustomerByName(string firstname, string lastname)
+        {
+            try
+            {
+                var customer = Mapper.MapCustomer(_context.Customers.Single(c => c.FirstName == firstname && c.LastName == lastname));
+
+                return customer;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
         public void AddNewOrder(Order order)
         {
@@ -72,6 +92,21 @@ namespace Data.Access
             }
         }
 
+        public bool AddNewLocation(Location location)
+        {
+            Locations entity = Mapper.MapLocation(location);
+            try
+            {
+                
+                _context.Add(entity);
+                return true;
+            }
+            catch (ArgumentNullException)
+            {
+
+                return false;
+            }
+        }
         public Order GetOrder(Order order)
         {
             var entity = _context.Orders.Single(o => o.CreatedAt == order.Date);
@@ -88,7 +123,7 @@ namespace Data.Access
         //    return products.Select(Mapper.MapInv).ToList();
         //}
 
-        public List<Business.Library.Location> GetAllLocationProducts()
+        public List<Business.Library.Location> GetAllLocations()
         {
 
             List<Entities.Locations> locations = _context.Locations.Include(c => c).ToList();
@@ -104,10 +139,14 @@ namespace Data.Access
             _context.Entry(myEntity).CurrentValues.SetValues(newEntity);
         }
 
-        public List<Business.Library.Order> GetOrders(Customer customer)
+        public void FindCustomerByID(int id)
+        {
+
+        }
+        public List<Business.Library.Order> GetOrders(int id)
         {
             List<Entities.Orders> order = _context.Orders.Include(c => c.Customer).ToList();
-            order = order.Where(c => c.CustomerId == customer.ID).ToList();
+            order = order.Where(c => c.CustomerId == id).ToList();
             return order.Select(Mapper.MapOrder).ToList();
         }
 
@@ -129,7 +168,7 @@ namespace Data.Access
         {
             Business.Library.OrderDetails od = new Business.Library.OrderDetails
             {
-                
+
                 order_id = order.order_id,
                 product_id = order.product_id,
                 Quantity = order.Quantity,
@@ -140,18 +179,28 @@ namespace Data.Access
             _context.Add(entity);
         }
 
-        public Product GetProduct(Product product)
+        public Product GetProduct(int id)
         {
-            Products entity = _context.Products.First(p => p.Name == product.Name);
-            product = Mapper.MapProduct(entity);
+            Products entity = _context.Products.First(p => p.Id == id);
+
+            Product product = Mapper.MapProduct(entity);
             return product;
         }
+        public List<Product> GetAllProductsByOrderDetail(Business.Library.OrderDetails od)
+        {
+            List<Products> entity = _context.Products.Include(p => p.OrderDetails).ToList();
+            entity = entity.Where(p => p.Id == od.product_id).ToList();
+
+            return entity.Select(Mapper.MapProduct).ToList();
+        }
+
+
 
         public Location GetLocationByID(int id)
         {
             Entities.Locations entity = _context.Locations.Single(l => l.Id == id);
             Location location = Mapper.MapLocation(entity);
-            return location; 
+            return location;
         }
         public List<Business.Library.OrderDetails> GetCurrentCart(Order order)
         {
@@ -161,11 +210,11 @@ namespace Data.Access
             return cart.Select(Mapper.MapOrderDetails).ToList();
         }
 
-        public List<Business.Library.Inventory> GetInventoryforLocation(Location location)
+        public List<Business.Library.Inventory> GetInventoryforLocation(int id)
         {
 
             List<Entities.Inventory> inventory = _context.Inventory.Include(r => r.Product).ToList();
-            inventory = inventory.Where(i => i.LocationId == location.ID).ToList();
+            inventory = inventory.Where(i => i.LocationId == id).ToList();
 
             return inventory.Select(Mapper.MapInv).ToList();
         }

@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Access;
+using Data.Access.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace HelloMVC
+namespace WebStoreApp
 {
     public class Startup
     {
@@ -21,8 +24,24 @@ namespace HelloMVC
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+
+        
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("StoreDB");
+            services.AddDbContext<Store2Context>(options =>
+           {
+               options.UseSqlServer(connectionString);
+           });
+
+            services.AddScoped<Repository>();
+
+            services.AddHttpContextAccessor();
+            //services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             services.AddControllersWithViews();
         }
 
@@ -43,8 +62,10 @@ namespace HelloMVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+         
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

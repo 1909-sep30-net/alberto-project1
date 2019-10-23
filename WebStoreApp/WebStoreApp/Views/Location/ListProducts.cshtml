@@ -1,0 +1,81 @@
+﻿@model OrderViewModel
+
+
+
+
+
+    <form asp-action="ReviewOrder">
+
+        @for (int i = 0; i < Model.inventory.Count; i++)
+        {
+            <input type='hidden' asp-for="inventory[i].Id" value='@Model.inventory[i].Id' />
+            <input type='hidden' asp-for="inventory[i].LocationId" value='@Model.inventory[i].LocationId' />
+            <input type='hidden' asp-for="inventory[i].ProductId" value='@Model.inventory[i].ProductId' />
+            <input type='hidden' asp-for="inventory[i].ProdName" value='@Model.inventory[i].ProdName' />
+            <input type='hidden' asp-for="inventory[i].Price" value='@Model.inventory[i].Price' />
+            <input type='hidden' asp-for="inventory[i].Stock" value="@Model.inventory[i].Stock"/>
+            
+
+
+        }
+
+
+        
+        <div class="locations_wrapper">
+            <div class="text-center">
+                <label>Select a Customer:</label>
+                <select asp-for="customerId" class="form-control" Default ="Select a Customer">
+                    @foreach (var item in Model.customers)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+
+
+                       
+                        <th>
+                            Products
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            In Stock
+                        </th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (int i = 0; i < Model.inventory.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.inventory[i].ProdName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.inventory[i].Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.inventory[i].Stock)
+                            </td>
+                            <td>
+                                <input asp-for="@Model.inventory[i].Quantity" type ="number" min= "0" max="@Model.inventory[i].Stock"/>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Review Order" class="btn btn-primary" />
+        </div>
+    </form>
+
+
+

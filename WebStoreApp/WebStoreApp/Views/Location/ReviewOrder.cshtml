@@ -1,0 +1,63 @@
+﻿@model OrderViewModel
+
+
+
+    <form asp-action="PlaceOrder">
+        @for (int i = 0; i < Model.inventory.Count; i++)
+        {
+            <input type='hidden' asp-for="inventory[i].Id" value='@Model.inventory[i].Id' />
+            <input type='hidden' asp-for="inventory[i].LocationId" value='@Model.inventory[i].LocationId' />
+            <input type='hidden' asp-for="inventory[i].ProductId" value='@Model.inventory[i].ProductId' />
+            <input type='hidden' asp-for="inventory[i].ProdName" value='@Model.inventory[i].ProdName' />
+            <input type='hidden' asp-for="inventory[i].Price" value='@Model.inventory[i].Price' />
+            <input type='hidden' asp-for="inventory[i].Stock" value="@Model.inventory[i].Stock" />
+            <input type='hidden' asp-for="inventory[i].ProdName" value="@Model.inventory[i].ProdName" />
+            <input type='hidden' asp-for="Total" value="@Model.Total" />
+            <input type='hidden' asp-for="customerId" value="@Model.customerId" />
+            <input type='hidden' asp-for="inventory[i].Quantity" value="@Model.inventory[i].Quantity" />
+
+
+
+        }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Product
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.inventory)
+                {
+
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProdName)
+
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+        <h4>Total: $@Html.DisplayFor(modelItem => modelItem.Total)</h4>
+        <span><input asp-action="PlaceOrder" type="submit" value="Place Order" class="btn btn-primary" /></span>
+    </form>

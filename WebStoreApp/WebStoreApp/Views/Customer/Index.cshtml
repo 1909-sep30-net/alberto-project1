@@ -1,0 +1,31 @@
+﻿@model CustomerViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Get the Order History</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="OrderHistory">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="firstName" class="control-label">Enter Customer's FirstName:</label>
+                <input asp-for="firstName" class="form-control" />
+                @*<span asp-validation-for="firstName" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="lastName" class="control-label">Enter Customer's LastName:</label>
+                <input asp-for="lastName" class="form-control" />
+                @*<span asp-validation-for="lastName" class="text-danger"></span>*@
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Get Order history" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

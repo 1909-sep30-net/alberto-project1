@@ -37,7 +37,8 @@ namespace Business.Library
             Date = DateTime.Now;
         }
 
-        public DateTime Date { get; }
+        public Order() { }
+        public DateTime Date { get; set; }
         public int ID { get; set; }
         public decimal Total { get; set; } = 0.00m;
         public int CustomerID

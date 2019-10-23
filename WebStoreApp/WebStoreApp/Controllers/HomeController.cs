@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using HelloMVC.Models;
+using WebStoreApp.Models;
 
-namespace HelloMVC.Controllers
+namespace WebStoreApp.Controllers
 {
+    //Base view for the webapp
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -20,13 +21,10 @@ namespace HelloMVC.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

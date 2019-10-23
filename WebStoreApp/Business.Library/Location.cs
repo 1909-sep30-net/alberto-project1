@@ -7,20 +7,21 @@ namespace Business.Library
     public class Location
     {
         private string _name;
-        
+
         private Product item = null;
 
         public int ID { get; set; }
         public string LocationName
         {
-            get => this._name;
+            get => this._name; set => LocationName = value;
         }
 
 
         public List<Inventory> Inventory { get; set; } = new List<Inventory> { };
 
 
-    public Location(string name)
+        public Location() { }
+        public Location(string name)
         {
             if (name.Length == 0)
             {
@@ -29,7 +30,7 @@ namespace Business.Library
             else
                 this._name = name;
 
-            
+
         }
 
         public int Quantity(Inventory product)
@@ -40,7 +41,7 @@ namespace Business.Library
             {
                 return product.quantity;
             }
-            catch(ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException)
             {
                 Console.WriteLine($"Index is {index}!!!!!!!");
                 return -1;
@@ -93,7 +94,7 @@ namespace Business.Library
         //        return true;
         //    }
         //    return true;
-            
+
         //}
 
 
