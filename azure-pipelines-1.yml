@@ -25,7 +25,7 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-  workingDirectory: ./RestaurantReviews
+  workingDirectory: WebStoreApp
 
 # - script: dotnet test
 #   displayName: dotnet test
