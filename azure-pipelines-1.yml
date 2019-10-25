@@ -20,6 +20,8 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'eatereats'
     projectName: 'EaterEats'
+    extraProperties: |
+        sonar.exclusions=**/lib/**
 # three different ways to solve the initial problem
 
 # - script:
