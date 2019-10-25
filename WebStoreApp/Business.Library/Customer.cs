@@ -6,6 +6,7 @@ namespace Business.Library
     {
         private string _firstname;
         private string _lastname;
+      
 
         public Customer() { }
         public Customer(string fname, string lname)

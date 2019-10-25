@@ -146,6 +146,8 @@ namespace Data.Access
             };
         }
 
+        //<summ>
+        //Maps inventory database object to business logic object
         public static Business.Library.Inventory MapInv(Entities.Inventory inventory)
         {
             Product p = MapProduct(inventory.Product);
